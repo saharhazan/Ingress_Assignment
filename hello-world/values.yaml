@@ -1,0 +1,26 @@
+replicaCount: 1
+image:
+  repository: hashicorp/http-echo
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+nameOverride: ""
+fullnameOverride: ""
+
+
+service:
+  type: ClusterIP
+  port: 5678
+
+
+
+ingress:
+  host: sahar-site
+
+app1:
+  args: "-text=service number 1"
+  containerPort: 5678
+
+app2:
+  args: "-text=service number 2"
+  containerPort: 5678

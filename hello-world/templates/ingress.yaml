@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/issuer: selfsigned-issuer
+  name:  {{ include "hello-world.fullname" . }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ include "hello-world.fullname" . }}-1
+            port:
+              number: {{ .Values.service.port }}
+        path: /routea
+        pathType: Prefix
+      - backend:
+          service:
+            name: {{ include "hello-world.fullname" . }}-2
+            port:
+              number: {{ .Values.service.port }}
+        path: /routeb
+        pathType: Prefix
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    secretName: {{ include "hello-world.fullname" . }}
+
+
